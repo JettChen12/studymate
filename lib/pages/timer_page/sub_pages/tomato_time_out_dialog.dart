@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 
-import '../helper/screen_util_helper.dart';
+import '../../../helper/screen_util_helper.dart';
 
 /// 番茄钟时间到弹的dialog
 class TomatoTimeOutDialog extends StatelessWidget {

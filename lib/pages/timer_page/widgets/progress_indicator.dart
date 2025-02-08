@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:studymate/common_widget/count_down_timer.dart';
+import 'package:studymate/pages/timer_page/widgets/count_down_timer.dart';
 
 /// 圆形进度条
 class TimerProgressIndicator extends StatefulWidget {

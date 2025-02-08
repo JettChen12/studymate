@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
+import 'package:star_menu/star_menu.dart';
 
-import '../../common_widget/add_tomato_dialog.dart';
-import '../../common_widget/count_down_timer.dart';
-import '../../common_widget/progress_indicator.dart';
-import '../../common_widget/spin_wrapper.dart';
+import 'sub_pages/add_tomato_dialog.dart';
+import 'widgets/count_down_timer.dart';
+import 'widgets/progress_indicator.dart';
+import 'widgets/spin_wrapper.dart';
+import 'sub_pages/tomato_time_out_dialog.dart';
 import '../../helper/screen_util_helper.dart';
 
 class TimerPage extends StatefulWidget {
@@ -28,6 +30,7 @@ class _TimerPageState extends State<TimerPage> with TickerProviderStateMixin, Au
   // 当前正在沉浸的项目
   String _project = '';
 
+  /// 监听倒计时
   void _listen() {
     if (mounted) {
       setState(() {
@@ -42,7 +45,8 @@ class _TimerPageState extends State<TimerPage> with TickerProviderStateMixin, Au
     }
   }
 
-  void _show() async {
+  /// 新增番茄钟
+  void _addTomato() async {
     final TomatoInfo? result = await SmartDialog.show(builder: (context) => AddTomatoDialog());
     if (result != null) {
       // 切换模式
@@ -60,6 +64,24 @@ class _TimerPageState extends State<TimerPage> with TickerProviderStateMixin, Au
       });
     }
   }
+
+  /// 倒计时时间到弹的dialog
+  void _showTimeOutDialog() {
+    SmartDialog.show(builder: (context) => TomatoTimeOutDialog());
+  }
+
+  /// 倒计时结束回调
+  void _onTimerFinished() {
+    setState(() {
+      _isRunning = false;
+      _project = '';
+      _isPause = false;
+    });
+    _showTimeOutDialog();
+  }
+
+  /// 打开菜单栏
+  void _openMenuDrawer() {}
 
   @override
   void initState() {
@@ -80,10 +102,34 @@ class _TimerPageState extends State<TimerPage> with TickerProviderStateMixin, Au
     super.dispose();
   }
 
+  final upperMenuItems = <Widget>[
+    Row(
+      mainAxisSize: MainAxisSize.min,
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Icon(Icons.insert_chart),
+        SizedBox(width: SUtil.width(5)),
+        Text('查看沉浸数据', style: TextStyle(fontSize: SUtil.sp(15), color: Colors.black))
+      ],
+    ),
+    Row(
+      mainAxisSize: MainAxisSize.min,
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Icon(Icons.settings),
+        SizedBox(width: SUtil.width(5)),
+        Text('更改当前背景', style: TextStyle(fontSize: SUtil.sp(15), color: Colors.black))
+      ],
+    ),
+  ];
+
   @override
   Widget build(BuildContext context) {
     super.build(context);
     return Scaffold(
+        resizeToAvoidBottomInset: false,
         appBar: AppBar(
           title: Container(
             alignment: Alignment.centerLeft,
@@ -96,7 +142,26 @@ class _TimerPageState extends State<TimerPage> with TickerProviderStateMixin, Au
             )),
           ),
           centerTitle: true,
-          actions: [Icon(Icons.menu), SizedBox(width: SUtil.width(20))],
+          actions: [
+            // upper bar menu
+            StarMenu(
+              params: StarMenuParameters.dropdown(context).copyWith(
+                backgroundParams: const BackgroundParams().copyWith(
+                  sigmaX: 2,
+                  sigmaY: 2,
+                ),
+              ),
+              items: upperMenuItems,
+              onItemTapped: (index, c) {
+                debugPrint('Item $index tapped');
+                c.closeMenu!();
+              },
+              child: const Padding(
+                padding: EdgeInsets.all(18),
+                child: Icon(Icons.menu),
+              ),
+            ),
+          ],
         ),
         body: _isRunning
             ? Column(
@@ -132,16 +197,13 @@ class _TimerPageState extends State<TimerPage> with TickerProviderStateMixin, Au
 
                   /// 显示时间
                   CountdownTimer(
-                    onTimerFinished: () {
-                      print('finished');
-                    },
+                    onTimerFinished: _onTimerFinished,
                     timerController: _timerController,
                     remainSecondProvider: _remainSecondProvider,
                   ),
                   SizedBox(height: SUtil.height(50)),
 
                   /// 暂停按钮
-
                   if (!_isPause)
                     GestureDetector(
                       behavior: HitTestBehavior.opaque,
@@ -190,7 +252,7 @@ class _TimerPageState extends State<TimerPage> with TickerProviderStateMixin, Au
             : Center(
                 child: GestureDetector(
                 behavior: HitTestBehavior.opaque,
-                onTap: () => _show(),
+                onTap: () => _addTomato(),
                 child: Container(
                   height: SUtil.height(40),
                   width: SUtil.width(120),

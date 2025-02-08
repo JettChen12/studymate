@@ -25,6 +25,8 @@ dependencies:
   animated_bottom_navigation_bar: ^1.3.3
   # dialog
   flutter_smart_dialog: ^4.9.8+5
+  # 弹出菜单
+  star_menu: ^4.0.1
 
 dev_dependencies:
   flutter_test:
