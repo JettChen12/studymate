@@ -1,16 +1,2 @@
 # studymate
-
-A new Flutter project.
-
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+StudyMate is an all-in-one learning assistant designed to help you stay organized, focused, and motivated throughout your study journey. Combining cutting-edge AI technology with powerful productivity tools, this app is your go-to solution for efficient and effective learning.

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:studymate/helper/screen_util_helper.dart';
 
+/// 添加番茄钟页面
 class AddTomatoDialog extends StatefulWidget {
   const AddTomatoDialog({super.key});
 

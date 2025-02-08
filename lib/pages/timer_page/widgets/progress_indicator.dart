@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:studymate/common_widget/count_down_timer.dart';
+import 'package:studymate/pages/timer_page/widgets/count_down_timer.dart';
 
 /// 圆形进度条
 class TimerProgressIndicator extends StatefulWidget {
@@ -14,7 +14,7 @@ class TimerProgressIndicator extends StatefulWidget {
 }
 
 class _TimerProgressIndicatorState extends State<TimerProgressIndicator> {
-  double _progressValue = 1;
+  double _progressValue = 0;
 
   @override
   void initState() {
@@ -30,7 +30,7 @@ class _TimerProgressIndicatorState extends State<TimerProgressIndicator> {
 
   void _update() {
     setState(() {
-      _progressValue = widget.remainSecondProvider.value.remainSecondValue / widget.remainSecondProvider.value.totalValue;
+      _progressValue = 1-(widget.remainSecondProvider.value.remainSecondValue / widget.remainSecondProvider.value.totalValue);
     });
   }
 
